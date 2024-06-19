@@ -28,21 +28,57 @@ class MakeRepository extends Command
      */
     public function handle()
     {
-        $name = $this->argument('name');
-        $path = app_path("Repositories/{$name}.php");
+        $suppliedName = $this->argument('name');
 
-        if (File::exists($path)) {
+        $this->createRepository($suppliedName);
+
+        return 0;
+    }
+
+    /**
+     * Create a repository class alongside the service class.
+     *
+     * @param string $suppliedName The name of the repository class to create.
+     */
+    public function createRepository($suppliedName)
+    {
+        $repositoryName = $suppliedName . 'Repository';
+        $repositoryPath = app_path("Repositories/{$repositoryName}.php");
+
+        if (File::exists($repositoryPath)) {
             $this->error('Repository already exists!');
             return 1;
         }
 
-        $stub = File::get(resource_path('stubs/repository.stub'));
-        $stub = str_replace('{{ class }}', $name, $stub);
+        $this->initRepositoryAbstractClass();
+
+        $this->info('Just extending the abstract repository class..');
+
+        $repositoryStub = File::get(resource_path('stubs/repository.stub'));
+        $repositoryStub = str_replace('{{ class }}', $repositoryName, $repositoryStub);
 
         File::ensureDirectoryExists(app_path('Repositories'));
-        File::put($path, $stub);
+        File::put($repositoryPath, $repositoryStub);
 
-        $this->info("Repository created successfully: {$path}");
-        return 0;
+        $this->info("Repository created successfully: {$repositoryPath}");
+    }
+
+    /**
+     * Initialize the repository abstract class.
+     */
+    function initRepositoryAbstractClass()
+    {
+        $abstractClassName = 'AbstractRepository';
+        $abstractPath      = app_path("Abstracts/{$abstractClassName}.php");
+
+        if (!File::exists($abstractPath)) {
+            $abstractStub = File::get(resource_path('stubs/abstract-repository.stub'));
+
+            File::ensureDirectoryExists(app_path('Abstracts'));
+            File::put($abstractPath, $abstractStub);
+
+            $this->info('Abstract class created just now.');
+        }
+
     }
 }
