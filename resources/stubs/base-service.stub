@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Services;
+
+use App\Concerns\ApiResponses;
+
+/**
+ * class BaseService
+ *
+ * The base service class to be inherited by service classes.
+ */
+class BaseService
+{
+    use ApiResponses;
+
+    /**
+     * Sets the payload with the provided parameters.
+     *
+     * @param bool   $success Success status.
+     * @param string $message Message associated with the payload.
+     * @param mixed  $data    Data associated with the payload.
+     *
+     * @return array
+     */
+    public function setPayload(bool $success, string $message = '',  $data = []) : array
+    {
+        return [
+            'success' => $success,
+            'message' => $message,
+            'data'    => $data
+        ];
+    }
+}

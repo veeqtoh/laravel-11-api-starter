@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Abstracts;
+
+/**
+ * abstract class AbstractRepository
+ *
+ * Library to define an abstract class for repositories.
+ */
+abstract class AbstractRepository
+{
+    public function __construct()
+    {
+        //
+    }
+
+    // AbstractRepository methods here.
+}

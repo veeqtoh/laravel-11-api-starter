@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-class {{ class }}
+use App\Abstracts\AbstractRepository;
+
+class {{ class }} extends AbstractRepository
 {
+    public function __construct()
+    {
+        //
+    }
+
     // Repository methods here.
 }

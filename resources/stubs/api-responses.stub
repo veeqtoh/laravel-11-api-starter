@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Concerns;
+
+use Illuminate\Http\JsonResponse;
+
+/**
+ * Trait ApiResponses
+ *
+ * Provides methods for generating standardized API responses.
+ */
+trait ApiResponses
+{
+    /**
+     * Returns a JSON response with a specified success status, message, and HTTP status code.
+     *
+     * @param array $responseData The response data.
+     * @param int   $statusCode   The HTTP status code for the response.
+     *
+     * @return JsonResponse
+     */
+    public function payload($responseData, $statusCode) : JsonResponse
+    {
+        return response()->json([
+            'success' => $responseData['success'],
+            'message' => $responseData['message'],
+            'data'    => $responseData['data'],
+        ], $statusCode);
+    }
+}
